@@ -260,8 +260,14 @@ extension HomeViewController: HighlightCellDelegate {
             return
         }
         let startColor = avarageColor
-        let endColor = UIColor.black
-        refreshBackground(with: [startColor.cgColor, startColor.cgColor, endColor.cgColor, endColor.cgColor])
+        refreshBackground(with: [
+            startColor.cgColor,
+            startColor.cgColor,
+            startColor.cgColor,
+            startColor.withAlphaComponent(0.5).cgColor,
+            startColor.withAlphaComponent(0.25).cgColor,
+            startColor.withAlphaComponent(0.1).cgColor]
+        )
     }
 }
 
