@@ -1,6 +1,16 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "For you" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Para você"
+          }
+        }
+      }
+    },
     "Now Playing" : {
       "localizations" : {
         "pt-BR" : {

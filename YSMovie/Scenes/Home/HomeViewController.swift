@@ -80,9 +80,11 @@ class HomeViewController: UIViewController {
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = String(localized: "For you")
         addSubviews()
         setupConstraints()
         setupCollectionViewLayout()
+        setupTransparentNavigationBar()
         presenter.getMovieSections()
     }
     
