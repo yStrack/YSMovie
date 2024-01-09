@@ -49,6 +49,10 @@ class HomeViewController: UIViewController {
             forCellWithReuseIdentifier: CarouselCollectionViewCell.identifier
         )
         collectionView.register(
+            HighlightCollectionViewCell.self,
+            forCellWithReuseIdentifier: HighlightCollectionViewCell.identifier
+        )
+        collectionView.register(
             CarouselSectionHeaderView.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: CarouselSectionHeaderView.identifier
@@ -100,9 +104,19 @@ class HomeViewController: UIViewController {
     private func makeDataSource() -> UICollectionViewDiffableDataSource<Section, Movie> {
         let dataSource = UICollectionViewDiffableDataSource<Section, Movie>.init(
             collectionView: collectionView) { collectionView, indexPath, item in
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CarouselCollectionViewCell.identifier, for: indexPath) as! CarouselCollectionViewCell
-                cell.setup(with: item)
-                return cell
+                
+                switch indexPath.section {
+                case 0:
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HighlightCollectionViewCell.identifier, for: indexPath) as! HighlightCollectionViewCell
+                    cell.setup(with: item)
+                    cell.delegate = self
+                    return cell
+                default:
+                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CarouselCollectionViewCell.identifier, for: indexPath) as! CarouselCollectionViewCell
+                    cell.setup(with: item)
+                    return cell
+                }
+                
             }
         
         dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
@@ -126,7 +140,12 @@ class HomeViewController: UIViewController {
     
     private func setupCollectionViewLayout() {
         let layout = UICollectionViewCompositionalLayout { sectionIndex, environment in
-            return self.carouselSection()
+            switch sectionIndex {
+            case 0:
+                return self.highlightSection()
+            default:
+                return self.carouselSection()
+            }
         }
         collectionView.setCollectionViewLayout(layout, animated: true)
     }
@@ -176,6 +195,34 @@ class HomeViewController: UIViewController {
         
         return section
     }
+    
+    private func highlightSection() -> NSCollectionLayoutSection {
+        // Item config
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1.0)
+        )
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        // Group config
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(0.52)
+        )
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+        
+        // Section config
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(
+            top: 16,
+            leading: 0,
+            bottom: 16,
+            trailing: 0
+        )
+        section.orthogonalScrollingBehavior = .none
+        
+        return section
+    }
 }
 
 // MARK: - HomePresenterOutput
@@ -190,5 +237,11 @@ extension HomeViewController: HomePresenterOutput {
             snapshot.appendItems(section.content, toSection: section)
         }
         dataSource.apply(snapshot, animatingDifferences: true)
+    }
+}
+
+extension HomeViewController: HighlightCellDelegate {
+    func didSetImage(avarageColor: UIColor?) {
+//        collectionView.backgroundColor = avarageColor ?? UIColor.black
     }
 }

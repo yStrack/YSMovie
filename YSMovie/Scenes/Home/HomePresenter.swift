@@ -30,15 +30,25 @@ final class HomePresenter: HomePresenterInput {
     }
     
     func getMovieSections() {
-        interactor.fetchTopRatedMovies()
-            .zip(interactor.fetchNowPlayingMovies(), interactor.fetchUpcomingMovies(), interactor.fetchPopularMovies()) { topRatedMovies, nowPlayingMovies, upcomingMovies, popularMovies in
-                let sectionList: [Section] = [
-                    Section(title: "Now Playing", content: nowPlayingMovies),
+        interactor.fetchTrendingMovies()
+            .zip(interactor.fetchNowPlayingMovies()) { trendingMovies, nowPlayingMovies in
+                var sectionList: [Section] = []
+                
+                if !trendingMovies.isEmpty, let trendingMovie = trendingMovies.sorted(by: { $0.popularity > $1.popularity }).first {
+                    sectionList.append(Section(title: "", content: [trendingMovie]))
+                }
+                sectionList.append(Section(title: "Now Playing", content: nowPlayingMovies))
+                return sectionList
+            }
+            .zip(interactor.fetchPopularMovies(), interactor.fetchTopRatedMovies(),  interactor.fetchUpcomingMovies()) { (initialSectionList: [Section], popularMovies, topRatedMovies, upcomingMovies) in
+                var finalSectionList = initialSectionList
+                let newSectionList: [Section] = [
                     Section(title: "Popular", content: popularMovies),
                     Section(title: "Top rated", content: topRatedMovies),
                     Section(title: "Upcoming", content: upcomingMovies)
                 ]
-                return sectionList
+                finalSectionList.append(contentsOf: newSectionList)
+                return finalSectionList
             }
             .receive(on: DispatchQueue.main)
             .sink { completion in

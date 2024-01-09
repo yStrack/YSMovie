@@ -26,6 +26,8 @@
 		183D92372B4C11D0007AE5CF /* CarouselCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183D92362B4C11D0007AE5CF /* CarouselCollectionViewCell.swift */; };
 		183D923A2B4C190C007AE5CF /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 183D92392B4C190C007AE5CF /* Kingfisher */; };
 		183D923C2B4C3789007AE5CF /* CarouselSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183D923B2B4C3789007AE5CF /* CarouselSectionHeaderView.swift */; };
+		188064CB2B4CDF5D0064C122 /* TrendingEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188064CA2B4CDF5D0064C122 /* TrendingEndpoint.swift */; };
+		188064CD2B4CEE9C0064C122 /* HighlightCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188064CC2B4CEE9C0064C122 /* HighlightCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +51,8 @@
 		183D92332B4B70B7007AE5CF /* HomeFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFactory.swift; sourceTree = "<group>"; };
 		183D92362B4C11D0007AE5CF /* CarouselCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselCollectionViewCell.swift; sourceTree = "<group>"; };
 		183D923B2B4C3789007AE5CF /* CarouselSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselSectionHeaderView.swift; sourceTree = "<group>"; };
+		188064CA2B4CDF5D0064C122 /* TrendingEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingEndpoint.swift; sourceTree = "<group>"; };
+		188064CC2B4CEE9C0064C122 /* HighlightCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				183D922B2B4B2541007AE5CF /* MovieListEndpoint.swift */,
+				188064CA2B4CDF5D0064C122 /* TrendingEndpoint.swift */,
 			);
 			path = Endpoints;
 			sourceTree = "<group>";
@@ -149,6 +154,7 @@
 			children = (
 				183D92362B4C11D0007AE5CF /* CarouselCollectionViewCell.swift */,
 				183D923B2B4C3789007AE5CF /* CarouselSectionHeaderView.swift */,
+				188064CC2B4CEE9C0064C122 /* HighlightCollectionViewCell.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -232,9 +238,11 @@
 				183D92082B4AF357007AE5CF /* HomeViewController.swift in Sources */,
 				183D92232B4B138C007AE5CF /* Secrets.swift in Sources */,
 				183D92262B4B15A7007AE5CF /* Movie.swift in Sources */,
+				188064CD2B4CEE9C0064C122 /* HighlightCollectionViewCell.swift in Sources */,
 				183D92302B4B5AFB007AE5CF /* HomeInteractor.swift in Sources */,
 				183D92282B4B19AE007AE5CF /* APIResponse.swift in Sources */,
 				183D92042B4AF357007AE5CF /* AppDelegate.swift in Sources */,
+				188064CB2B4CDF5D0064C122 /* TrendingEndpoint.swift in Sources */,
 				183D921B2B4AF6EC007AE5CF /* Endpoint.swift in Sources */,
 				183D921F2B4AF850007AE5CF /* NetworkError.swift in Sources */,
 				183D921D2B4AF744007AE5CF /* HTTPMethod.swift in Sources */,
