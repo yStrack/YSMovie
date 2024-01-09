@@ -28,7 +28,7 @@ class HomeViewController: UIViewController {
     lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(frame: .zero)
         indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicator.style = .medium
+        indicator.style = .large
         indicator.color = .white
         indicator.tintColor = .white
         indicator.backgroundColor = .clear
