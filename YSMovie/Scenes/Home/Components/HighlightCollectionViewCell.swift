@@ -20,7 +20,7 @@ final class HighlightCollectionViewCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.2).cgColor
         imageView.layer.borderWidth = 1.0
-        imageView.layer.cornerRadius = 8
+        imageView.layer.cornerRadius = 12
         imageView.clipsToBounds = true
         return imageView
     }()
