@@ -37,15 +37,15 @@ final class HomePresenter: HomePresenterInput {
                 if !trendingMovies.isEmpty, let trendingMovie = trendingMovies.sorted(by: { $0.popularity > $1.popularity }).first {
                     sectionList.append(Section(title: "", content: [trendingMovie]))
                 }
-                sectionList.append(Section(title: "Now Playing", content: nowPlayingMovies))
+                sectionList.append(Section(title: String(localized: "Now Playing"), content: nowPlayingMovies))
                 return sectionList
             }
             .zip(interactor.fetchPopularMovies(), interactor.fetchTopRatedMovies(),  interactor.fetchUpcomingMovies()) { (initialSectionList: [Section], popularMovies, topRatedMovies, upcomingMovies) in
                 var finalSectionList = initialSectionList
                 let newSectionList: [Section] = [
-                    Section(title: "Popular", content: popularMovies),
-                    Section(title: "Top rated", content: topRatedMovies),
-                    Section(title: "Upcoming", content: upcomingMovies)
+                    Section(title: String(localized: "Popular"), content: popularMovies),
+                    Section(title: String(localized: "Top rated"), content: topRatedMovies),
+                    Section(title: String(localized: "Upcoming"), content: upcomingMovies)
                 ]
                 finalSectionList.append(contentsOf: newSectionList)
                 return finalSectionList
