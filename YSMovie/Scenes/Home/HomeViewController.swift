@@ -43,6 +43,7 @@ class HomeViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.showsVerticalScrollIndicator = true
         collectionView.backgroundColor = .black
+        collectionView.delegate = self
         
         collectionView.register(
             CarouselCollectionViewCell.self,
@@ -66,6 +67,7 @@ class HomeViewController: UIViewController {
     // MARK: Dependencies
     let presenter: HomePresenterInput
     
+    // MARK: Initializers
     init(presenter: HomePresenterInput) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
@@ -75,6 +77,7 @@ class HomeViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         addSubviews()
@@ -98,6 +101,14 @@ class HomeViewController: UIViewController {
             activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
+    }
+    
+    private func refreshBackground(with colors: [CGColor]) {
+        collectionView.backgroundColor = .black
+        let backgroundView = UIView()
+        let gradientLayer = CAGradientLayer.gradientLayer(colors: colors, in: collectionView.frame)
+        backgroundView.layer.addSublayer(gradientLayer)
+        collectionView.backgroundView = backgroundView
     }
     
     // MARK: Collection View functions
@@ -240,8 +251,20 @@ extension HomeViewController: HomePresenterOutput {
     }
 }
 
+// MARK: Highlight CollectionView Cell Delegate
 extension HomeViewController: HighlightCellDelegate {
     func didSetImage(avarageColor: UIColor?) {
-//        collectionView.backgroundColor = avarageColor ?? UIColor.black
+        guard let avarageColor else {
+            return
+        }
+        let startColor = avarageColor
+        let endColor = UIColor.black
+        refreshBackground(with: [startColor.cgColor, startColor.cgColor, endColor.cgColor, endColor.cgColor])
+    }
+}
+
+extension HomeViewController: UICollectionViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        // TODO: Update backgroundView alpha while scrolling
     }
 }
