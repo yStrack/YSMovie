@@ -8,7 +8,10 @@
 import Foundation
 
 // MARK: - Movie
-struct Movie: Codable {
+struct Movie: Codable, Hashable {
+    /// Used to Identify this Item on a Collection View.
+    /// This way same Movies have different IDs and avoid visual inconsistencies.
+    let viewId: String = UUID().uuidString
     let adult: Bool
     let backdropPath: String
     let budget: Int?
@@ -46,6 +49,14 @@ struct Movie: Codable {
         case revenue, runtime
         case spokenLanguages = "spoken_languages"
         case status, tagline, title, video
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(viewId)
+    }
+    
+    static func == (lhs: Movie, rhs: Movie) -> Bool {
+        lhs.viewId == rhs.viewId
     }
 }
 

@@ -31,8 +31,13 @@ final class HomePresenter: HomePresenterInput {
     
     func getMovieSections() {
         interactor.fetchTopRatedMovies()
-            .zip(interactor.fetchNowPlayingMovies(), interactor.fetchUpcomingMovies()) { topRatedMovies, nowPlayingMovies, upcomingMovies in
-                let sectionList: [Section] = [Section(title: "Top rated", content: topRatedMovies), Section(title: "Now Playing", content: nowPlayingMovies), Section(title: "Upcoming", content: upcomingMovies)]
+            .zip(interactor.fetchNowPlayingMovies(), interactor.fetchUpcomingMovies(), interactor.fetchPopularMovies()) { topRatedMovies, nowPlayingMovies, upcomingMovies, popularMovies in
+                let sectionList: [Section] = [
+                    Section(title: "Now Playing", content: nowPlayingMovies),
+                    Section(title: "Popular", content: popularMovies),
+                    Section(title: "Top rated", content: topRatedMovies),
+                    Section(title: "Upcoming", content: upcomingMovies)
+                ]
                 return sectionList
             }
             .receive(on: DispatchQueue.main)
