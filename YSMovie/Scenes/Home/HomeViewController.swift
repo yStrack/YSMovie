@@ -265,6 +265,9 @@ extension HomeViewController: HighlightCellDelegate {
 
 extension HomeViewController: UICollectionViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        // TODO: Update backgroundView alpha while scrolling
+        let verticalOffset = scrollView.contentOffset.y
+        let threshold: CGFloat = scrollView.frame.height / 4.0
+        let alpha = (verticalOffset) / threshold
+        collectionView.backgroundView?.alpha = (1 - alpha)
     }
 }
