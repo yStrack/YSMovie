@@ -25,13 +25,6 @@ final class HighlightCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
-    private lazy var foregroundView: UIView = {
-        let view = UIView()
-        view.backgroundColor = nil
-        return view
-    }()
-    
-    var didSetGradient: Bool = false
     var delegate: HighlightCellDelegate?
     
     override init(frame: CGRect) {
@@ -45,21 +38,9 @@ final class HighlightCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        if !didSetGradient {
-            let colors = [UIColor.clear.cgColor, UIColor.clear.cgColor, UIColor.lightGray.withAlphaComponent(0.2).cgColor]
-            let gradientLayer = CAGradientLayer.gradientLayer(colors: colors, in: imageView.frame)
-            foregroundView.layer.addSublayer(gradientLayer)
-            didSetGradient = true
-        }
-    }
-    
     // MARK: Setup Views
     private func addSubviews() {
         addSubview(imageView)
-        addSubview(foregroundView)
     }
     
     private func setupConstraints() {
@@ -71,11 +52,19 @@ final class HighlightCollectionViewCell: UICollectionViewCell {
         ])
     }
     
+    private func setupGradientColors(avarageColor: UIColor?) {
+        let endColor = avarageColor?.withAlphaComponent(0.5).cgColor ?? UIColor.lightGray.withAlphaComponent(0.2).cgColor
+        let colors = [UIColor.clear.cgColor, UIColor.clear.cgColor, endColor]
+        let gradientLayer = CAGradientLayer.gradientLayer(colors: colors, in: imageView.bounds)
+        imageView.layer.addSublayer(gradientLayer)
+    }
+    
     public func setup(with movie: Movie) {
         let imageURL = URL(string: "https://image.tmdb.org/t/p/original" + movie.posterPath)
         imageView.kf.setImage(with: imageURL, placeholder: nil) { [weak self] result in
             switch result {
             case .success(_):
+                self?.setupGradientColors(avarageColor: self?.imageView.image?.averageColor)
                 self?.delegate?.didSetImage(avarageColor: self?.imageView.image?.averageColor)
             case .failure(_):
                 return
