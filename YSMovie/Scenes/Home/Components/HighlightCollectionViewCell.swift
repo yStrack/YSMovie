@@ -25,6 +25,13 @@ final class HighlightCollectionViewCell: UICollectionViewCell {
         return imageView
     }()
     
+    private lazy var foregroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = nil
+        return view
+    }()
+    
+    var didSetGradient: Bool = false
     var delegate: HighlightCellDelegate?
     
     override init(frame: CGRect) {
@@ -38,9 +45,21 @@ final class HighlightCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        if !didSetGradient {
+            let colors = [UIColor.clear.cgColor, UIColor.clear.cgColor, UIColor.lightGray.withAlphaComponent(0.2).cgColor]
+            let gradientLayer = CAGradientLayer.gradientLayer(colors: colors, in: imageView.frame)
+            foregroundView.layer.addSublayer(gradientLayer)
+            didSetGradient = true
+        }
+    }
+    
     // MARK: Setup Views
     private func addSubviews() {
         addSubview(imageView)
+        addSubview(foregroundView)
     }
     
     private func setupConstraints() {
