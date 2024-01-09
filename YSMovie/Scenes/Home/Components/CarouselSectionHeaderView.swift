@@ -16,7 +16,8 @@ final class CarouselSectionHeaderView: UICollectionReusableView {
         label.textColor = .white
         label.textAlignment = .left
         label.numberOfLines = 1
-        label.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        label.font = UIFont.preferredFont(forTextStyle: .headline)
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
     

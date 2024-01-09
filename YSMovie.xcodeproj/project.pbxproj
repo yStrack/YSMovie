@@ -28,6 +28,7 @@
 		183D923C2B4C3789007AE5CF /* CarouselSectionHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183D923B2B4C3789007AE5CF /* CarouselSectionHeaderView.swift */; };
 		185D81382B4D6D7E00B9F8DD /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 185D81372B4D6D7E00B9F8DD /* Localizable.xcstrings */; };
 		185D813A2B4D866300B9F8DD /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185D81392B4D866300B9F8DD /* UIViewController+Extension.swift */; };
+		185D813C2B4D8C2800B9F8DD /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185D813B2B4D8C2800B9F8DD /* UIFont+Extension.swift */; };
 		188064CB2B4CDF5D0064C122 /* TrendingEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188064CA2B4CDF5D0064C122 /* TrendingEndpoint.swift */; };
 		188064CD2B4CEE9C0064C122 /* HighlightCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188064CC2B4CEE9C0064C122 /* HighlightCollectionViewCell.swift */; };
 		188064D02B4CFE770064C122 /* UImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188064CF2B4CFE770064C122 /* UImage+Extension.swift */; };
@@ -58,6 +59,7 @@
 		183D923B2B4C3789007AE5CF /* CarouselSectionHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselSectionHeaderView.swift; sourceTree = "<group>"; };
 		185D81372B4D6D7E00B9F8DD /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		185D81392B4D866300B9F8DD /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		185D813B2B4D8C2800B9F8DD /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		188064CA2B4CDF5D0064C122 /* TrendingEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendingEndpoint.swift; sourceTree = "<group>"; };
 		188064CC2B4CEE9C0064C122 /* HighlightCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HighlightCollectionViewCell.swift; sourceTree = "<group>"; };
 		188064CF2B4CFE770064C122 /* UImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UImage+Extension.swift"; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				188064D12B4CFE8E0064C122 /* UIView+Extension.swift */,
 				188064D32B4CFEAC0064C122 /* CAGradientLayer+Extension.swift */,
 				185D81392B4D866300B9F8DD /* UIViewController+Extension.swift */,
+				185D813B2B4D8C2800B9F8DD /* UIFont+Extension.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -265,6 +268,7 @@
 				188064D42B4CFEAC0064C122 /* CAGradientLayer+Extension.swift in Sources */,
 				183D92262B4B15A7007AE5CF /* Movie.swift in Sources */,
 				188064CD2B4CEE9C0064C122 /* HighlightCollectionViewCell.swift in Sources */,
+				185D813C2B4D8C2800B9F8DD /* UIFont+Extension.swift in Sources */,
 				183D92302B4B5AFB007AE5CF /* HomeInteractor.swift in Sources */,
 				183D92282B4B19AE007AE5CF /* APIResponse.swift in Sources */,
 				183D92042B4AF357007AE5CF /* AppDelegate.swift in Sources */,
