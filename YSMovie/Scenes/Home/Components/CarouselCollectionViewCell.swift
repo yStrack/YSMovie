@@ -17,6 +17,7 @@ final class CarouselCollectionViewCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 4
         imageView.clipsToBounds = true
+        imageView.backgroundColor = .darkGray
         return imageView
     }()
     

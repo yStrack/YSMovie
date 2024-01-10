@@ -22,6 +22,7 @@ final class HighlightCollectionViewCell: UICollectionViewCell {
         imageView.layer.borderWidth = 1.0
         imageView.layer.cornerRadius = 12
         imageView.clipsToBounds = true
+        imageView.backgroundColor = .darkGray
         return imageView
     }()
     
@@ -63,9 +64,10 @@ final class HighlightCollectionViewCell: UICollectionViewCell {
         let imageURL = URL(string: "https://image.tmdb.org/t/p/original" + movie.posterPath)
         imageView.kf.setImage(with: imageURL, placeholder: nil) { [weak self] result in
             switch result {
-            case .success(_):
-                self?.setupGradientColors(avarageColor: self?.imageView.image?.averageColor)
-                self?.delegate?.didSetImage(avarageColor: self?.imageView.image?.averageColor)
+            case .success(let imageResult):
+                guard let self else { return }
+                setupGradientColors(avarageColor: imageResult.image.averageColor)
+                delegate?.didSetImage(avarageColor: imageResult.image.averageColor)
             case .failure(_):
                 return
             }
