@@ -20,10 +20,22 @@ final class HighlightCollectionViewCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.borderColor = UIColor.lightGray.withAlphaComponent(0.2).cgColor
         imageView.layer.borderWidth = 1.0
+        imageView.layer.cornerCurve = .continuous
         imageView.layer.cornerRadius = 12
         imageView.clipsToBounds = true
         imageView.backgroundColor = .darkGray
         return imageView
+    }()
+    
+    private lazy var shadowView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        view.layer.cornerCurve = .continuous
+        view.layer.cornerRadius = 12
+        view.layer.shadowOpacity = 0.25
+        view.layer.shadowRadius = 6.0
+        return view
     }()
     
     var delegate: HighlightCellDelegate?
@@ -32,24 +44,35 @@ final class HighlightCollectionViewCell: UICollectionViewCell {
         super.init(frame: .zero)
         addSubviews()
         setupConstraints()
-        imageView.addParallaxToView(amount: 24)
+        shadowView.addParallaxToView(amount: 24)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        shadowView.layer.shadowPath = UIBezierPath(roundedRect: shadowView.bounds, cornerRadius: shadowView.layer.cornerRadius).cgPath
+    }
+    
     // MARK: Setup Views
     private func addSubviews() {
-        addSubview(imageView)
+        shadowView.addSubview(imageView)
+        addSubview(shadowView)
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: self.topAnchor),
-            imageView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            imageView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.88),
+            shadowView.topAnchor.constraint(equalTo: self.topAnchor),
+            shadowView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            shadowView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            shadowView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.88),
+            
+            imageView.topAnchor.constraint(equalTo: shadowView.topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: shadowView.bottomAnchor),
+            imageView.leadingAnchor.constraint(equalTo: shadowView.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: shadowView.trailingAnchor),
         ])
     }
     
