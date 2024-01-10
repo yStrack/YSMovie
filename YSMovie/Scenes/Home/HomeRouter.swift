@@ -17,8 +17,7 @@ final class HomeRouter: HomeRouterProtocol {
     weak var viewController: UIViewController?
     
     func presentDetails(for movie: Movie) {
-        let destination = DetailsViewController(movie: movie)
-        destination.modalPresentationStyle = .overCurrentContext
+        let destination = DetailsFactory.build(movie)
         viewController?.present(destination, animated: true)
     }
 }
