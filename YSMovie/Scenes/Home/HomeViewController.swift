@@ -99,22 +99,26 @@ class HomeViewController: UIViewController {
     }
     
     // MARK: Collection View functions
+    let carouselCellRegistration = UICollectionView.CellRegistration<CarouselCollectionViewCell, Movie> { (cell, indexPath, item) in
+        cell.setup(with: item)
+    }
+    
+    let highlightCellRegistration = UICollectionView.CellRegistration<HighlightCollectionViewCell, Movie> { (cell, indexPath, item) in
+        cell.setup(with: item)
+    }
+    
     private func makeDataSource() -> UICollectionViewDiffableDataSource<Section, Movie> {
         let dataSource = UICollectionViewDiffableDataSource<Section, Movie>.init(
             collectionView: collectionView) { collectionView, indexPath, item in
                 
                 switch indexPath.section {
                 case 0:
-                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HighlightCollectionViewCell.identifier, for: indexPath) as! HighlightCollectionViewCell
-                    cell.setup(with: item)
+                    let cell = collectionView.dequeueConfiguredReusableCell(using: self.highlightCellRegistration, for: indexPath, item: item)
                     cell.delegate = self
                     return cell
                 default:
-                    let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CarouselCollectionViewCell.identifier, for: indexPath) as! CarouselCollectionViewCell
-                    cell.setup(with: item)
-                    return cell
+                    return collectionView.dequeueConfiguredReusableCell(using: self.carouselCellRegistration, for: indexPath, item: item)
                 }
-                
             }
         
         dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
