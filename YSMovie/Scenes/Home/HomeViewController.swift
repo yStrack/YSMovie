@@ -25,19 +25,6 @@ struct Section: Identifiable, Hashable {
 class HomeViewController: UIViewController {
     
     // MARK: Views
-    lazy var activityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(frame: .zero)
-        indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicator.style = .large
-        indicator.color = .white
-        indicator.tintColor = .white
-        indicator.backgroundColor = .clear
-        indicator.hidesWhenStopped = true
-        indicator.contentMode = .scaleToFill
-        indicator.startAnimating()
-        return indicator
-    }()
-    
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -81,6 +68,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = String(localized: "For you")
+        showLoading()
         addSubviews()
         setupConstraints()
         setupCollectionViewLayout()
@@ -91,7 +79,6 @@ class HomeViewController: UIViewController {
     // MARK: Setup subviews
     private func addSubviews() {
         view.addSubview(collectionView)
-        view.addSubview(activityIndicator)
     }
     
     private func setupConstraints() {
@@ -100,8 +87,6 @@ class HomeViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            activityIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            activityIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
     }
     
@@ -241,7 +226,7 @@ class HomeViewController: UIViewController {
 // MARK: - HomePresenterOutput
 extension HomeViewController: HomePresenterOutput {
     func movieSectionsDidLoad(_ sectionList: [Section]) {
-        self.activityIndicator.stopAnimating()
+        hideLoading()
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Movie>()
         snapshot.appendSections(sectionList)
@@ -250,6 +235,13 @@ extension HomeViewController: HomePresenterOutput {
             snapshot.appendItems(section.content, toSection: section)
         }
         dataSource.apply(snapshot, animatingDifferences: true)
+    }
+    
+    func movieSectionsDidFail() {
+        self.showError(retryAction: { [weak self] in
+            guard let self else { return }
+            self.presenter.getMovieSections()
+        })
     }
 }
 

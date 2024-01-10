@@ -14,6 +14,7 @@ protocol HomePresenterInput {
 
 protocol HomePresenterOutput {
     func movieSectionsDidLoad(_ sectionList: [Section])
+    func movieSectionsDidFail()
 }
 
 final class HomePresenter: HomePresenterInput {
@@ -51,9 +52,9 @@ final class HomePresenter: HomePresenterInput {
                 return finalSectionList
             }
             .receive(on: DispatchQueue.main)
-            .sink { completion in
+            .sink { [weak self] completion in
                 if case .failure(_) = completion {
-                    // TODO: Handle error
+                    self?.output?.movieSectionsDidFail()
                     return
                 }
             } receiveValue: { [weak self] (sectionList: [Section]) in
