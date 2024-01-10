@@ -270,4 +270,11 @@ extension HomeViewController: UICollectionViewDelegate {
         let alpha = (verticalOffset) / threshold
         collectionView.backgroundView?.alpha = (1 - alpha)
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let movie = dataSource.snapshot().sectionIdentifiers[indexPath.section].content[indexPath.row]
+        let destination = DetailsViewController(movie: movie)
+        destination.modalPresentationStyle = .overCurrentContext
+        self.present(destination, animated: true)
+    }
 }
