@@ -13,7 +13,7 @@ struct Movie: Codable, Hashable {
     /// This way same Movies have different IDs and avoid visual inconsistencies.
     let viewId: String = UUID().uuidString
     let adult: Bool
-    let backdropPath: String
+    let backdropPath: String?
     let budget: Int?
     let genresIds: [Int]?
     let genres: [Genre]?
