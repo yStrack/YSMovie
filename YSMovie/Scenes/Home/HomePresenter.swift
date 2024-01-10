@@ -10,6 +10,7 @@ import Combine
 
 protocol HomePresenterInput {
     func getMovieSections()
+    func didSelectMovie(_ movie: Movie)
 }
 
 protocol HomePresenterOutput {
@@ -21,13 +22,15 @@ final class HomePresenter: HomePresenterInput {
     
     // MARK: Dependencies
     let interactor: HomeInteractorProtocol
+    let router: HomeRouterProtocol
     var output: HomePresenterOutput?
     
     // MARK: Dispose bag
     var cancellables = Set<AnyCancellable>()
     
-    init(interactor: HomeInteractorProtocol) {
+    init(interactor: HomeInteractorProtocol, router: HomeRouterProtocol) {
         self.interactor = interactor
+        self.router = router
     }
     
     func getMovieSections() {
@@ -61,5 +64,9 @@ final class HomePresenter: HomePresenterInput {
                 self?.output?.movieSectionsDidLoad(sectionList)
             }
             .store(in: &cancellables)
+    }
+    
+    func didSelectMovie(_ movie: Movie) {
+        router.presentDetails(for: movie)
     }
 }
