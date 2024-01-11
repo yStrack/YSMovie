@@ -69,7 +69,9 @@ struct Genre: Codable {
 // MARK: - ProductionCompany
 struct ProductionCompany: Codable {
     let id: Int
-    let logoPath, name, originCountry: String
+    let logoPath: String?
+    let name: String?
+    let originCountry: String?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -81,7 +83,7 @@ struct ProductionCompany: Codable {
 
 // MARK: - ProductionCountry
 struct ProductionCountry: Codable {
-    let iso3166_1, name: String
+    let iso3166_1, name: String?
 
     enum CodingKeys: String, CodingKey {
         case iso3166_1 = "iso_3166_1"
@@ -91,7 +93,7 @@ struct ProductionCountry: Codable {
 
 // MARK: - SpokenLanguage
 struct SpokenLanguage: Codable {
-    let englishName, iso639_1, name: String
+    let englishName, iso639_1, name: String?
 
     enum CodingKeys: String, CodingKey {
         case englishName = "english_name"
