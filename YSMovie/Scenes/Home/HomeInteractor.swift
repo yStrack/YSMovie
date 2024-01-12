@@ -47,7 +47,7 @@ final class HomeInteractor: HomeInteractorProtocol {
     private func fetchMovies(_ endpoint: Endpoint) -> AnyPublisher<[Movie], Error> {
         let subject: PassthroughSubject<[Movie], Error> = .init()
         
-        service.sendRequest(endpoint: endpoint) { (result: Result<APIResponse, NetworkError>) in
+        service.sendRequest(endpoint: endpoint) { (result: Result<APIResponse<Movie>, NetworkError>) in
             switch result {
             case .success(let response):
                 let movies = response.results

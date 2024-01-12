@@ -8,9 +8,9 @@
 import Foundation
 
 /// TMDB API Response data model for Movie related endpoints.
-struct APIResponse: Decodable {
-    let page: Int
-    let results: [Movie]
-    let total_pages: Int
-    let total_results: Int
+struct APIResponse<ResultType: Decodable>: Decodable {
+    let page: Int?
+    let results: [ResultType]
+    let total_pages: Int?
+    let total_results: Int?
 }
