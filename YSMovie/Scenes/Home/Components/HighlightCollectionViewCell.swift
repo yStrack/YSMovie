@@ -84,7 +84,8 @@ final class HighlightCollectionViewCell: UICollectionViewCell {
     }
     
     public func setup(with movie: Movie) {
-        let imageURL = URL(string: "https://image.tmdb.org/t/p/original" + movie.posterPath)
+        guard let posterPath = movie.posterPath else { return }
+        let imageURL = URL(string: "https://image.tmdb.org/t/p/original" + posterPath)
         imageView.kf.setImage(with: imageURL, placeholder: nil) { [weak self] result in
             switch result {
             case .success(let imageResult):

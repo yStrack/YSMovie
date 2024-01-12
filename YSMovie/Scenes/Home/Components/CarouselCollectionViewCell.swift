@@ -49,7 +49,8 @@ final class CarouselCollectionViewCell: UICollectionViewCell {
     /// Setup subviews with Movie data.
     /// - Parameter movie: Movie data.
     public func setup(with movie: Movie) {
-        let imageURL = URL(string: "https://image.tmdb.org/t/p/w780" + movie.posterPath)
+        guard let posterPath = movie.posterPath else { return }
+        let imageURL = URL(string: "https://image.tmdb.org/t/p/w780" + posterPath)
         imageView.kf.setImage(with: imageURL, placeholder: nil)
     }
 }

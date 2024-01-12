@@ -23,7 +23,7 @@ struct Movie: Decodable, Hashable {
     let originalTitle: String
     let overview: String
     let popularity: Double
-    let posterPath: String
+    let posterPath: String?
     let productionCompanies: [ProductionCompany]?
     let productionCountries: [ProductionCountry]?
     let releaseDate: String
@@ -34,9 +34,9 @@ struct Movie: Decodable, Hashable {
     let title: String
     let video: Bool
     // Appending results properties
-    let videos: [APIResponse<Video>]?
-    let similar: [APIResponse<Movie>]?
-    let releaseDates: [APIResponse<ReleaseDate>]?
+    let videos: APIResponse<Video>?
+    let similar: APIResponse<Movie>?
+    let releaseDates: APIResponse<ReleaseDate>?
 
     enum CodingKeys: String, CodingKey {
         case adult
