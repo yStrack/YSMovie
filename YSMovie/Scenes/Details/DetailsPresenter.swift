@@ -5,6 +5,7 @@
 //  Created by ystrack on 12/01/24.
 //
 
+import Foundation
 import Combine
 
 protocol DetailsPresenterInput {
@@ -12,7 +13,15 @@ protocol DetailsPresenterInput {
 }
 
 protocol DetailsPresenterOutput {
-    func detailsDidLoad()
+    func detailsDidLoad(_ movie: Movie)
+}
+
+// MARK: ViewModels
+enum DetailsCollectionViewSection {
+    /// Movie infos such as title, overview, release date...
+    case infos
+    /// Movie related extras such as trailers, similar movies...
+    case extras
 }
 
 final class DetailsPresenter: DetailsPresenterInput {
@@ -31,7 +40,9 @@ final class DetailsPresenter: DetailsPresenterInput {
     }
     
     func getDetails() {
+        output?.detailsDidLoad(movie)
         interactor.fetchDetails(for: movie.id)
+            .receive(on: DispatchQueue.main)
             .sink { completion in
                 if case .failure(let error) = completion {
                     print(error)
@@ -39,6 +50,7 @@ final class DetailsPresenter: DetailsPresenterInput {
             } receiveValue: { [weak self] movie in
                 guard let self else { return }
                 self.movie = movie
+                output?.detailsDidLoad(movie)
             }
             .store(in: &cancellables)
     }

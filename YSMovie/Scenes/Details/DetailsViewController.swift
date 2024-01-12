@@ -11,24 +11,30 @@ import SwiftUI
 final class DetailsViewController: UIViewController {
     
     // MARK: Subviews
-    private lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero)
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .clear
-        tableView.separatorStyle = .none
-        tableView.dataSource = self
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewCompositionalLayout() { sectionIndex, layoutEnvironment in
+            var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+            configuration.showsSeparators = false
+            configuration.backgroundColor = .clear
+            configuration.headerTopPadding = 0
+            configuration.headerMode = sectionIndex == 1 ? .supplementary : .none
+            
+            let section = NSCollectionLayoutSection.list(using: configuration, layoutEnvironment: layoutEnvironment)
+            return section
+        }
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: DetailsTableViewCell.identifier)
-        return tableView
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .clear
+        
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: DetailsTableViewCell.identifier)
+        return collectionView
     }()
     
     private lazy var headerImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
-        if let imagePath = movie.backdropPath {
-            imageView.kf.setImage(with: URL(string: "https://image.tmdb.org/t/p/w780" + imagePath))
-        }
         return imageView
     }()
     
@@ -67,12 +73,10 @@ final class DetailsViewController: UIViewController {
     }()
     
     // MARK: Dependencies
-    let movie: Movie
     let presenter: DetailsPresenterInput
     
     // MARK: Initializers
-    init(movie: Movie, presenter: DetailsPresenterInput) {
-        self.movie = movie
+    init(presenter: DetailsPresenterInput) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
@@ -94,7 +98,7 @@ final class DetailsViewController: UIViewController {
     private func addSubviews() {
         view.addSubview(backgroundVisualEffectView)
         view.addSubview(headerImageView)
-        view.addSubview(tableView)
+        view.addSubview(collectionView)
         view.addSubview(navigationBar)
     }
     
@@ -114,10 +118,10 @@ final class DetailsViewController: UIViewController {
             headerImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             headerImageView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3),
             
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.topAnchor.constraint(equalTo: headerImageView.bottomAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: headerImageView.bottomAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             navigationBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             navigationBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -129,26 +133,18 @@ final class DetailsViewController: UIViewController {
     @objc func closeView() {
         self.dismiss(animated: true)
     }
-}
-
-// MARK: UITableViewDataSource
-extension DetailsViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    // MARK: CollectionView Data Source
+    private lazy var dataSource = UICollectionViewDiffableDataSource<DetailsCollectionViewSection, AnyHashable>(collectionView: collectionView) { collectionView, indexPath, item in
         let section = indexPath.section
+        
         switch section {
         case 0:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: DetailsTableViewCell.identifier) else {
-                fatalError("Failed to dequeueReusableCell - unregistered table view cell")
+            guard let movie = item as? Movie else {
+                fatalError("Unkown Details CollectionView item for section 0.")
             }
             
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailsTableViewCell.identifier, for: indexPath)
             cell.contentConfiguration = UIHostingConfiguration {
                 DetailsTableViewCell(
                     title: movie.title,
@@ -157,23 +153,37 @@ extension DetailsViewController: UITableViewDataSource {
                     runtime: movie.runtimeHourAndMinute()
                 )
             }
-            cell.backgroundColor = .clear
-            cell.selectionStyle = .none
+            
             return cell
         case 1:
-            // TODO: Trailers Section Cell
-            let cell = UITableViewCell(frame: .zero)
+            guard let movie = item as? Video else {
+                fatalError("Unkown Details CollectionView item for section 0.")
+            }
+            let cell = UICollectionViewCell()
             cell.backgroundColor = .clear
             return cell
         default:
-            return UITableViewCell(frame: .zero)
+            fatalError("Unkown Details CollectionView section.")
         }
     }
 }
 
 // MARK: UITableViewDelegate
 extension DetailsViewController: DetailsPresenterOutput {
-    func detailsDidLoad() {
-        //
+    func detailsDidLoad(_ movie: Movie) {
+        if let imagePath = movie.backdropPath {
+            headerImageView.kf.setImage(with: URL(string: "https://image.tmdb.org/t/p/w780" + imagePath))
+        }
+        
+        var snapshot = NSDiffableDataSourceSnapshot<DetailsCollectionViewSection, AnyHashable>()
+        snapshot.appendSections([.infos])
+        snapshot.appendItems([movie], toSection: .infos)
+        
+//        if let videos = movie.videos {
+//            snapshot.appendSections([.extras])
+//            snapshot.appendItems(videos.results, toSection: .extras)
+//        }
+        
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }

@@ -13,7 +13,7 @@ enum DetailsFactory {
         let service = NetworkService()
         let interactor = DetailsInteractor(service: service)
         let presenter = DetailsPresenter(movie: input, interactor: interactor)
-        let viewController = DetailsViewController(movie: input, presenter: presenter)
+        let viewController = DetailsViewController(presenter: presenter)
         
         viewController.modalPresentationStyle = .overCurrentContext
         presenter.output = viewController
