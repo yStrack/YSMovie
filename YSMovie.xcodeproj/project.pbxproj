@@ -38,6 +38,8 @@
 		188064D02B4CFE770064C122 /* UImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188064CF2B4CFE770064C122 /* UImage+Extension.swift */; };
 		188064D22B4CFE8E0064C122 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188064D12B4CFE8E0064C122 /* UIView+Extension.swift */; };
 		188064D42B4CFEAC0064C122 /* CAGradientLayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188064D32B4CFEAC0064C122 /* CAGradientLayer+Extension.swift */; };
+		18E1D8402B5193180094CB12 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E1D83F2B5193180094CB12 /* Video.swift */; };
+		18E1D8422B5194530094CB12 /* ReleaseDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E1D8412B5194530094CB12 /* ReleaseDate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +75,8 @@
 		188064CF2B4CFE770064C122 /* UImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UImage+Extension.swift"; sourceTree = "<group>"; };
 		188064D12B4CFE8E0064C122 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 		188064D32B4CFEAC0064C122 /* CAGradientLayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Extension.swift"; sourceTree = "<group>"; };
+		18E1D83F2B5193180094CB12 /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
+		18E1D8412B5194530094CB12 /* ReleaseDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReleaseDate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,8 +140,10 @@
 		183D92242B4B1599007AE5CF /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				183D92252B4B15A7007AE5CF /* Movie.swift */,
 				183D92272B4B19AE007AE5CF /* APIResponse.swift */,
+				183D92252B4B15A7007AE5CF /* Movie.swift */,
+				18E1D8412B5194530094CB12 /* ReleaseDate.swift */,
+				18E1D83F2B5193180094CB12 /* Video.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -296,6 +302,7 @@
 				183D92232B4B138C007AE5CF /* Secrets.swift in Sources */,
 				188064D42B4CFEAC0064C122 /* CAGradientLayer+Extension.swift in Sources */,
 				183D92262B4B15A7007AE5CF /* Movie.swift in Sources */,
+				18E1D8402B5193180094CB12 /* Video.swift in Sources */,
 				188064CD2B4CEE9C0064C122 /* HighlightCollectionViewCell.swift in Sources */,
 				185D813C2B4D8C2800B9F8DD /* UIFont+Extension.swift in Sources */,
 				183D92302B4B5AFB007AE5CF /* HomeInteractor.swift in Sources */,
@@ -316,6 +323,7 @@
 				188064D02B4CFE770064C122 /* UImage+Extension.swift in Sources */,
 				183D92372B4C11D0007AE5CF /* CarouselCollectionViewCell.swift in Sources */,
 				183D92062B4AF357007AE5CF /* SceneDelegate.swift in Sources */,
+				18E1D8422B5194530094CB12 /* ReleaseDate.swift in Sources */,
 				188064D22B4CFE8E0064C122 /* UIView+Extension.swift in Sources */,
 				183D92212B4AFBCB007AE5CF /* NetworkService.swift in Sources */,
 			);
