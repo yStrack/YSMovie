@@ -40,6 +40,9 @@
 		188064D42B4CFEAC0064C122 /* CAGradientLayer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188064D32B4CFEAC0064C122 /* CAGradientLayer+Extension.swift */; };
 		18E1D8402B5193180094CB12 /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E1D83F2B5193180094CB12 /* Video.swift */; };
 		18E1D8422B5194530094CB12 /* ReleaseDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E1D8412B5194530094CB12 /* ReleaseDate.swift */; };
+		18E1D8442B51A3030094CB12 /* MovieEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E1D8432B51A3030094CB12 /* MovieEndpoint.swift */; };
+		18E1D8462B51A4870094CB12 /* DetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E1D8452B51A4870094CB12 /* DetailsInteractor.swift */; };
+		18E1D8482B51BDF10094CB12 /* DetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E1D8472B51BDF10094CB12 /* DetailsPresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -77,6 +80,9 @@
 		188064D32B4CFEAC0064C122 /* CAGradientLayer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CAGradientLayer+Extension.swift"; sourceTree = "<group>"; };
 		18E1D83F2B5193180094CB12 /* Video.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
 		18E1D8412B5194530094CB12 /* ReleaseDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReleaseDate.swift; sourceTree = "<group>"; };
+		18E1D8432B51A3030094CB12 /* MovieEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieEndpoint.swift; sourceTree = "<group>"; };
+		18E1D8452B51A4870094CB12 /* DetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsInteractor.swift; sourceTree = "<group>"; };
+		18E1D8472B51BDF10094CB12 /* DetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsPresenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -151,6 +157,7 @@
 		183D922A2B4B252C007AE5CF /* Endpoints */ = {
 			isa = PBXGroup;
 			children = (
+				18E1D8432B51A3030094CB12 /* MovieEndpoint.swift */,
 				183D922B2B4B2541007AE5CF /* MovieListEndpoint.swift */,
 				188064CA2B4CDF5D0064C122 /* TrendingEndpoint.swift */,
 			);
@@ -193,6 +200,9 @@
 			isa = PBXGroup;
 			children = (
 				185D81402B4DE7C200B9F8DD /* Components */,
+				187B9EAB2B4F209F00E75C62 /* DetailsFactory.swift */,
+				18E1D8452B51A4870094CB12 /* DetailsInteractor.swift */,
+				18E1D8472B51BDF10094CB12 /* DetailsPresenter.swift */,
 				185D813E2B4DB1E400B9F8DD /* DetailsViewController.swift */,
 			);
 			path = Details;
@@ -201,7 +211,6 @@
 		185D81402B4DE7C200B9F8DD /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				187B9EAB2B4F209F00E75C62 /* DetailsFactory.swift */,
 				185D81412B4DE7E500B9F8DD /* DetailsTableViewCell.swift */,
 			);
 			path = Components;
@@ -312,13 +321,16 @@
 				188064CB2B4CDF5D0064C122 /* TrendingEndpoint.swift in Sources */,
 				183D921B2B4AF6EC007AE5CF /* Endpoint.swift in Sources */,
 				185D813F2B4DB1E400B9F8DD /* DetailsViewController.swift in Sources */,
+				18E1D8482B51BDF10094CB12 /* DetailsPresenter.swift in Sources */,
 				183D921F2B4AF850007AE5CF /* NetworkError.swift in Sources */,
 				183D921D2B4AF744007AE5CF /* HTTPMethod.swift in Sources */,
+				18E1D8442B51A3030094CB12 /* MovieEndpoint.swift in Sources */,
 				185D813A2B4D866300B9F8DD /* UIViewController+Extension.swift in Sources */,
 				183D92342B4B70B7007AE5CF /* HomeFactory.swift in Sources */,
 				183D92322B4B6086007AE5CF /* HomePresenter.swift in Sources */,
 				183D923C2B4C3789007AE5CF /* CarouselSectionHeaderView.swift in Sources */,
 				187B9EAA2B4F1F5100E75C62 /* HomeRouter.swift in Sources */,
+				18E1D8462B51A4870094CB12 /* DetailsInteractor.swift in Sources */,
 				183D922C2B4B2541007AE5CF /* MovieListEndpoint.swift in Sources */,
 				188064D02B4CFE770064C122 /* UImage+Extension.swift in Sources */,
 				183D92372B4C11D0007AE5CF /* CarouselCollectionViewCell.swift in Sources */,

@@ -16,7 +16,6 @@ final class DetailsViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .clear
         tableView.separatorStyle = .none
-        tableView.delegate = self
         tableView.dataSource = self
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: DetailsTableViewCell.identifier)
@@ -69,10 +68,12 @@ final class DetailsViewController: UIViewController {
     
     // MARK: Dependencies
     let movie: Movie
+    let presenter: DetailsPresenterInput
     
     // MARK: Initializers
-    init(movie: Movie) {
+    init(movie: Movie, presenter: DetailsPresenterInput) {
         self.movie = movie
+        self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -86,6 +87,7 @@ final class DetailsViewController: UIViewController {
         setupSubviews()
         addSubviews()
         setupConstraints()
+        presenter.getDetails()
     }
     
     // MARK: Setup Subviews
@@ -165,6 +167,8 @@ extension DetailsViewController: UITableViewDataSource {
 }
 
 // MARK: UITableViewDelegate
-extension DetailsViewController: UITableViewDelegate {
-    
+extension DetailsViewController: DetailsPresenterOutput {
+    func detailsDidLoad() {
+        //
+    }
 }
