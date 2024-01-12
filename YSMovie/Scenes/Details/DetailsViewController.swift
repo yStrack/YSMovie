@@ -150,7 +150,12 @@ extension DetailsViewController: UITableViewDataSource {
             }
             
             cell.contentConfiguration = UIHostingConfiguration {
-                DetailsTableViewCell(title: movie.title, overview: movie.overview)
+                DetailsTableViewCell(
+                    title: movie.title,
+                    overview: movie.overview,
+                    releaseYear: movie.getReleaseYear(),
+                    runtime: movie.runtimeHourAndMinute()
+                )
             }
             cell.backgroundColor = .clear
             cell.selectionStyle = .none

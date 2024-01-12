@@ -57,12 +57,39 @@ struct Movie: Decodable, Hashable {
         case releaseDates = "release_dates"
     }
     
+    // MARK: Hashable
     func hash(into hasher: inout Hasher) {
         hasher.combine(viewId)
     }
     
     static func == (lhs: Movie, rhs: Movie) -> Bool {
         lhs.viewId == rhs.viewId
+    }
+    
+    // MARK: Helpers
+    /// Get the release date year.
+    /// Ignoring day and month from release date.
+    /// - Returns: Year as string.
+    func getReleaseYear() -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        guard
+            let date = formatter.date(from: self.releaseDate),
+            let year = Calendar.current.dateComponents([.year], from: date).year
+        else {
+            return ""
+        }
+        return String(year)
+    }
+    
+    /// Get Movie runtime in hours + minutes instead of received runtime in minutes from API.
+    /// - Returns: Hour + minute runtime string.
+    func runtimeHourAndMinute() -> String? {
+        guard let minutesRuntime = self.runtime else {
+            return nil
+        }
+        
+        return "\(minutesRuntime / 60)h \(minutesRuntime % 60)min"
     }
 }
 
