@@ -13,10 +13,4 @@ struct APIResponse<ResultType: Decodable>: Decodable {
     let results: [ResultType]
     let total_pages: Int?
     let total_results: Int?
-    
-    // Appending results properties
-    // TODO: Study how to refector and make it dynamic.
-    let videos: [APIResponse<Video>]?
-    let similar: [APIResponse<Movie>]?
-    let release_dates: [APIResponse<ReleaseDate>]?
 }

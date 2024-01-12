@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Movie
-struct Movie: Codable, Hashable {
+struct Movie: Decodable, Hashable {
     /// Used to Identify this Item on a Collection View.
     /// This way same Movies have different IDs and avoid visual inconsistencies.
     let viewId: String = UUID().uuidString
@@ -33,6 +33,10 @@ struct Movie: Codable, Hashable {
     let tagline: String?
     let title: String
     let video: Bool
+    // Appending results properties
+    let videos: [APIResponse<Video>]?
+    let similar: [APIResponse<Movie>]?
+    let releaseDates: [APIResponse<ReleaseDate>]?
 
     enum CodingKeys: String, CodingKey {
         case adult
@@ -49,6 +53,8 @@ struct Movie: Codable, Hashable {
         case revenue, runtime
         case spokenLanguages = "spoken_languages"
         case status, tagline, title, video
+        case videos, similar
+        case releaseDates = "release_dates"
     }
     
     func hash(into hasher: inout Hasher) {
