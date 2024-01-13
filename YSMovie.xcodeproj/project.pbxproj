@@ -43,6 +43,7 @@
 		18E1D8442B51A3030094CB12 /* MovieEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E1D8432B51A3030094CB12 /* MovieEndpoint.swift */; };
 		18E1D8462B51A4870094CB12 /* DetailsInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E1D8452B51A4870094CB12 /* DetailsInteractor.swift */; };
 		18E1D8482B51BDF10094CB12 /* DetailsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E1D8472B51BDF10094CB12 /* DetailsPresenter.swift */; };
+		18E1D84A2B522DE10094CB12 /* SegmentedControlHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E1D8492B522DE10094CB12 /* SegmentedControlHeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,6 +84,7 @@
 		18E1D8432B51A3030094CB12 /* MovieEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieEndpoint.swift; sourceTree = "<group>"; };
 		18E1D8452B51A4870094CB12 /* DetailsInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsInteractor.swift; sourceTree = "<group>"; };
 		18E1D8472B51BDF10094CB12 /* DetailsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsPresenter.swift; sourceTree = "<group>"; };
+		18E1D8492B522DE10094CB12 /* SegmentedControlHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedControlHeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,6 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				185D81412B4DE7E500B9F8DD /* InfosCell.swift */,
+				18E1D8492B522DE10094CB12 /* SegmentedControlHeaderView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 				183D92282B4B19AE007AE5CF /* APIResponse.swift in Sources */,
 				183D92042B4AF357007AE5CF /* AppDelegate.swift in Sources */,
 				188064CB2B4CDF5D0064C122 /* TrendingEndpoint.swift in Sources */,
+				18E1D84A2B522DE10094CB12 /* SegmentedControlHeaderView.swift in Sources */,
 				183D921B2B4AF6EC007AE5CF /* Endpoint.swift in Sources */,
 				185D813F2B4DB1E400B9F8DD /* DetailsViewController.swift in Sources */,
 				18E1D8482B51BDF10094CB12 /* DetailsPresenter.swift in Sources */,

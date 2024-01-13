@@ -36,6 +36,11 @@ final class DetailsViewController: UIViewController {
         
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: InfosCell.identifier)
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "VideoCell")
+        collectionView.register(
+            SegmentedControlHeaderView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier: SegmentedControlHeaderView.identifier
+        )
         return collectionView
     }()
     
@@ -144,10 +149,6 @@ final class DetailsViewController: UIViewController {
     }
     
     // MARK: CollectionView Data Source
-    let headerRegistration = UICollectionView.SupplementaryRegistration<CarouselSectionHeaderView>(elementKind: UICollectionView.elementKindSectionHeader) { supplementaryView, elementKind, indexPath in
-        supplementaryView.setup(title: "Teste")
-    }
-    
     func makeDataSource() -> UICollectionViewDiffableDataSource<DetailsCollectionViewSection, AnyHashable> {
         let dataSource = UICollectionViewDiffableDataSource<DetailsCollectionViewSection, AnyHashable>(collectionView: collectionView) { collectionView, indexPath, item in
             let section = indexPath.section
@@ -177,12 +178,14 @@ final class DetailsViewController: UIViewController {
                 }
                 
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VideoCell", for: indexPath)
+                let text: String = "\(video.type): \(video.name)"
                 cell.contentConfiguration = UIHostingConfiguration {
                     HStack {
-                        Text("\(video.type): \(String(video.name.split(separator: "|").first ?? ""))")
+                        Text(text)
                         Spacer()
                     }
                 }
+                .margins(.horizontal, 0) // Pin to edges.
                 
                 return cell
             default:
@@ -195,10 +198,12 @@ final class DetailsViewController: UIViewController {
                 return nil
             }
             
-            let headerView = collectionView.dequeueConfiguredReusableSupplementary(
-                using: self.headerRegistration,
+            let headerView = collectionView.dequeueReusableSupplementaryView(
+                ofKind: UICollectionView.elementKindSectionHeader,
+                withReuseIdentifier: SegmentedControlHeaderView.identifier,
                 for: indexPath
-            )
+            ) as? SegmentedControlHeaderView
+            
             return headerView
         }
         
@@ -206,7 +211,7 @@ final class DetailsViewController: UIViewController {
     }
 }
 
-// MARK: UITableViewDelegate
+// MARK: Presenter Output Extension
 extension DetailsViewController: DetailsPresenterOutput {
     func detailsDidLoad(_ movie: Movie) {
         if let imagePath = movie.backdropPath {

@@ -1,6 +1,16 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Details" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detalhes"
+          }
+        }
+      }
+    },
     "For you" : {
       "localizations" : {
         "pt-BR" : {
@@ -31,6 +41,16 @@
         }
       }
     },
+    "Similars" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Semelhantes"
+          }
+        }
+      }
+    },
     "Something went wrong" : {
       "localizations" : {
         "pt-BR" : {
@@ -47,6 +67,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bem avaliados"
+          }
+        }
+      }
+    },
+    "Trailers and more" : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trailers e mais"
           }
         }
       }
