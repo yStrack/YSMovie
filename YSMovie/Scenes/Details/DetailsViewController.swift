@@ -12,14 +12,21 @@ final class DetailsViewController: UIViewController {
     
     // MARK: Subviews
     private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewCompositionalLayout() { sectionIndex, layoutEnvironment in
+        let layout = UICollectionViewCompositionalLayout { sectionIndex, layoutEnvironment in
             var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
             configuration.showsSeparators = false
             configuration.backgroundColor = .clear
-            configuration.headerTopPadding = 0
+//            configuration.headerTopPadding = 0
             configuration.headerMode = sectionIndex == 1 ? .supplementary : .none
             
             let section = NSCollectionLayoutSection.list(using: configuration, layoutEnvironment: layoutEnvironment)
+            section.boundarySupplementaryItems.forEach { element in
+                // Adjust header alignment.
+                element.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
+                // Avoid pinning header.
+                element.pinToVisibleBounds = false
+            }
+            section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
             return section
         }
         
@@ -27,7 +34,8 @@ final class DetailsViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
         
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: DetailsTableViewCell.identifier)
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: InfosCell.identifier)
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "VideoCell")
         return collectionView
     }()
     
@@ -73,6 +81,7 @@ final class DetailsViewController: UIViewController {
     }()
     
     // MARK: Dependencies
+    private lazy var dataSource = makeDataSource()
     let presenter: DetailsPresenterInput
     
     // MARK: Initializers
@@ -135,36 +144,65 @@ final class DetailsViewController: UIViewController {
     }
     
     // MARK: CollectionView Data Source
-    private lazy var dataSource = UICollectionViewDiffableDataSource<DetailsCollectionViewSection, AnyHashable>(collectionView: collectionView) { collectionView, indexPath, item in
-        let section = indexPath.section
-        
-        switch section {
-        case 0:
-            guard let movie = item as? Movie else {
-                fatalError("Unkown Details CollectionView item for section 0.")
-            }
+    let headerRegistration = UICollectionView.SupplementaryRegistration<CarouselSectionHeaderView>(elementKind: UICollectionView.elementKindSectionHeader) { supplementaryView, elementKind, indexPath in
+        supplementaryView.setup(title: "Teste")
+    }
+    
+    func makeDataSource() -> UICollectionViewDiffableDataSource<DetailsCollectionViewSection, AnyHashable> {
+        let dataSource = UICollectionViewDiffableDataSource<DetailsCollectionViewSection, AnyHashable>(collectionView: collectionView) { collectionView, indexPath, item in
+            let section = indexPath.section
             
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailsTableViewCell.identifier, for: indexPath)
-            cell.contentConfiguration = UIHostingConfiguration {
-                DetailsTableViewCell(
-                    title: movie.title,
-                    overview: movie.overview,
-                    releaseYear: movie.getReleaseYear(),
-                    runtime: movie.runtimeHourAndMinute()
-                )
+            switch section {
+            case 0:
+                guard let movie = item as? Movie else {
+                    fatalError("Unkown Details CollectionView item for section 0.")
+                }
+                
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InfosCell.identifier, for: indexPath)
+                cell.contentConfiguration = UIHostingConfiguration {
+                    InfosCell(
+                        title: movie.title,
+                        overview: movie.overview,
+                        certification: movie.getAgeRating() ?? "L",
+                        releaseYear: movie.getReleaseYear(),
+                        runtime: movie.runtimeHourAndMinute()
+                    )
+                }
+                .margins(.all, 0) // Pin to edges.
+                
+                return cell
+            case 1:
+                guard let video = item as? Video else {
+                    fatalError("Unkown Details CollectionView item for section 1.")
+                }
+                
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VideoCell", for: indexPath)
+                cell.contentConfiguration = UIHostingConfiguration {
+                    HStack {
+                        Text("\(video.type): \(String(video.name.split(separator: "|").first ?? ""))")
+                        Spacer()
+                    }
+                }
+                
+                return cell
+            default:
+                fatalError("Unkown Details CollectionView section.")
             }
-            
-            return cell
-        case 1:
-            guard let movie = item as? Video else {
-                fatalError("Unkown Details CollectionView item for section 0.")
-            }
-            let cell = UICollectionViewCell()
-            cell.backgroundColor = .clear
-            return cell
-        default:
-            fatalError("Unkown Details CollectionView section.")
         }
+        
+        dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
+            guard kind == UICollectionView.elementKindSectionHeader else {
+                return nil
+            }
+            
+            let headerView = collectionView.dequeueConfiguredReusableSupplementary(
+                using: self.headerRegistration,
+                for: indexPath
+            )
+            return headerView
+        }
+        
+        return dataSource
     }
 }
 
@@ -179,10 +217,10 @@ extension DetailsViewController: DetailsPresenterOutput {
         snapshot.appendSections([.infos])
         snapshot.appendItems([movie], toSection: .infos)
         
-//        if let videos = movie.videos {
-//            snapshot.appendSections([.extras])
-//            snapshot.appendItems(videos.results, toSection: .extras)
-//        }
+        if let videos = movie.getVideos() {
+            snapshot.appendSections([.extras])
+            snapshot.appendItems(videos, toSection: .extras)
+        }
         
         dataSource.apply(snapshot, animatingDifferences: true)
     }

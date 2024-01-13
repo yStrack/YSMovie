@@ -34,9 +34,9 @@ struct Movie: Decodable, Hashable {
     let title: String
     let video: Bool
     // Appending results properties
-    let videos: APIResponse<Video>?
-    let similar: APIResponse<Movie>?
-    let releaseDates: APIResponse<ReleaseDate>?
+    private let videos: APIResponse<Video>?
+    private let similar: APIResponse<Movie>?
+    private let releaseDates: APIResponse<ReleaseDate>?
 
     enum CodingKeys: String, CodingKey {
         case adult
@@ -90,6 +90,28 @@ struct Movie: Decodable, Hashable {
         }
         
         return "\(minutesRuntime / 60)h \(minutesRuntime % 60)min"
+    }
+    
+    /// Get Movie age rating (certification) for User's device location.
+    /// - Returns: Age rating string.
+    func getAgeRating() -> String? {
+        guard let responseReleaseDates = self.releaseDates else { return nil }
+        let locationId = Locale.current.region?.identifier
+        return responseReleaseDates.results.first(where: { $0.iso_639_1 == locationId })?.certification
+    }
+    
+    /// Get Movie related videos/
+    /// - Returns: Videos array.
+    func getVideos() -> [Video]? {
+        guard let responseVideos = self.videos else { return nil }
+        return responseVideos.results
+    }
+    
+    /// Get a list of similar movies.
+    /// - Returns: Similar list of Movies.
+    func geSimilars() -> [Movie] {
+        guard let responseSimilar = self.similar else { return [] }
+        return responseSimilar.results
     }
 }
 
