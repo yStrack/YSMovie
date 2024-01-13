@@ -149,29 +149,30 @@ final class DetailsViewController: UIViewController {
     }
     
     // MARK: CollectionView Data Source
+    let infosCellRegistration = UICollectionView.CellRegistration<UICollectionViewCell, AnyHashable> { (cell, indexPath, item) in
+        guard let movie = item as? Movie else {
+            fatalError("Unkown Details CollectionView item for section 0.")
+        }
+        
+        cell.contentConfiguration = UIHostingConfiguration {
+            InfosCell(
+                title: movie.title,
+                overview: movie.overview,
+                certification: movie.getAgeRating(),
+                releaseYear: movie.getReleaseYear(),
+                runtime: movie.runtimeHourAndMinute()
+            )
+        }
+        .margins(.all, 0) // Pin to edges.
+    }
+    
     func makeDataSource() -> UICollectionViewDiffableDataSource<DetailsCollectionViewSection, AnyHashable> {
         let dataSource = UICollectionViewDiffableDataSource<DetailsCollectionViewSection, AnyHashable>(collectionView: collectionView) { collectionView, indexPath, item in
             let section = indexPath.section
             
             switch section {
             case 0:
-                guard let movie = item as? Movie else {
-                    fatalError("Unkown Details CollectionView item for section 0.")
-                }
-                
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: InfosCell.identifier, for: indexPath)
-                cell.contentConfiguration = UIHostingConfiguration {
-                    InfosCell(
-                        title: movie.title,
-                        overview: movie.overview,
-                        certification: movie.getAgeRating() ?? "L",
-                        releaseYear: movie.getReleaseYear(),
-                        runtime: movie.runtimeHourAndMinute()
-                    )
-                }
-                .margins(.all, 0) // Pin to edges.
-                
-                return cell
+                return collectionView.dequeueConfiguredReusableCell(using: self.infosCellRegistration, for: indexPath, item: item)
             case 1:
                 guard let video = item as? Video else {
                     fatalError("Unkown Details CollectionView item for section 1.")
