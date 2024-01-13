@@ -16,16 +16,9 @@ final class DetailsViewController: UIViewController {
             var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
             configuration.showsSeparators = false
             configuration.backgroundColor = .clear
-//            configuration.headerTopPadding = 0
-            configuration.headerMode = sectionIndex == 1 ? .supplementary : .none
+            configuration.footerMode = sectionIndex == 0 ? .supplementary : .none
             
             let section = NSCollectionLayoutSection.list(using: configuration, layoutEnvironment: layoutEnvironment)
-            section.boundarySupplementaryItems.forEach { element in
-                // Adjust header alignment.
-                element.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8)
-                // Avoid pinning header.
-                element.pinToVisibleBounds = false
-            }
             section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
             return section
         }
@@ -34,11 +27,9 @@ final class DetailsViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
         
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: InfosCell.identifier)
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "VideoCell")
         collectionView.register(
             SegmentedControlHeaderView.self,
-            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
             withReuseIdentifier: SegmentedControlHeaderView.identifier
         )
         return collectionView
@@ -166,6 +157,35 @@ final class DetailsViewController: UIViewController {
         .margins(.all, 0) // Pin to edges.
     }
     
+    let videosCellRegistration = UICollectionView.CellRegistration<UICollectionViewCell, AnyHashable> { (cell, indexPath, item) in
+        guard let video = item as? Video else {
+            fatalError("Unkown Details CollectionView item for section 0.")
+        }
+        
+        let text: String = "\(video.type): \(video.name)"
+        cell.contentConfiguration = UIHostingConfiguration {
+            HStack {
+                Text(text)
+                Spacer()
+            }
+        }
+        .margins(.horizontal, 0) // Pin to edges.
+    }
+    
+    let similarsCellRegistration = UICollectionView.CellRegistration<UICollectionViewCell, AnyHashable> { (cell, indexPath, item) in
+        guard let movie = item as? Movie else {
+            fatalError("Unkown Details CollectionView item for section 0.")
+        }
+        
+        cell.contentConfiguration = UIHostingConfiguration {
+            HStack {
+                Text(movie.title)
+                Spacer()
+            }
+        }
+        .margins(.horizontal, 0) // Pin to edges.
+    }
+    
     func makeDataSource() -> UICollectionViewDiffableDataSource<DetailsCollectionViewSection, AnyHashable> {
         let dataSource = UICollectionViewDiffableDataSource<DetailsCollectionViewSection, AnyHashable>(collectionView: collectionView) { collectionView, indexPath, item in
             let section = indexPath.section
@@ -174,38 +194,35 @@ final class DetailsViewController: UIViewController {
             case 0:
                 return collectionView.dequeueConfiguredReusableCell(using: self.infosCellRegistration, for: indexPath, item: item)
             case 1:
-                guard let video = item as? Video else {
-                    fatalError("Unkown Details CollectionView item for section 1.")
+                // Config section using Video Cell.
+                if let _ = item as? Video {
+                    return collectionView.dequeueConfiguredReusableCell(using: self.videosCellRegistration, for: indexPath, item: item)
                 }
                 
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "VideoCell", for: indexPath)
-                let text: String = "\(video.type): \(video.name)"
-                cell.contentConfiguration = UIHostingConfiguration {
-                    HStack {
-                        Text(text)
-                        Spacer()
-                    }
+                // Config section using Movie Cell.
+                if let _ = item as? Movie {
+                    return collectionView.dequeueConfiguredReusableCell(using: self.similarsCellRegistration, for: indexPath, item: item)
                 }
-                .margins(.horizontal, 0) // Pin to edges.
                 
-                return cell
+                fatalError("Unkown Details CollectionView item for section 1.")
             default:
                 fatalError("Unkown Details CollectionView section.")
             }
         }
         
         dataSource.supplementaryViewProvider = { collectionView, kind, indexPath in
-            guard kind == UICollectionView.elementKindSectionHeader else {
+            guard kind == UICollectionView.elementKindSectionFooter else {
                 return nil
             }
             
-            let headerView = collectionView.dequeueReusableSupplementaryView(
-                ofKind: UICollectionView.elementKindSectionHeader,
+            let footerView = collectionView.dequeueReusableSupplementaryView(
+                ofKind: UICollectionView.elementKindSectionFooter,
                 withReuseIdentifier: SegmentedControlHeaderView.identifier,
                 for: indexPath
             ) as? SegmentedControlHeaderView
+            footerView?.delegate = self
             
-            return headerView
+            return footerView
         }
         
         return dataSource
@@ -214,20 +231,31 @@ final class DetailsViewController: UIViewController {
 
 // MARK: Presenter Output Extension
 extension DetailsViewController: DetailsPresenterOutput {
-    func detailsDidLoad(_ movie: Movie) {
+    func movieDidLoad(_ movie: Movie) {
+        // Update header image view.
         if let imagePath = movie.backdropPath {
             headerImageView.kf.setImage(with: URL(string: "https://image.tmdb.org/t/p/w780" + imagePath))
         }
-        
+    }
+    
+    func detailsSectionsDidLoad(_ sections: [DetailsCollectionViewSection]) {
         var snapshot = NSDiffableDataSourceSnapshot<DetailsCollectionViewSection, AnyHashable>()
-        snapshot.appendSections([.infos])
-        snapshot.appendItems([movie], toSection: .infos)
-        
-        if let videos = movie.getVideos() {
-            snapshot.appendSections([.extras])
-            snapshot.appendItems(videos, toSection: .extras)
+        snapshot.appendSections(sections)
+        sections.forEach { section in
+            switch section {
+            case .infos(let movie):
+                snapshot.appendItems([movie], toSection: section)
+            case .extras(let items):
+                snapshot.appendItems(items, toSection: section)
+            }
         }
-        
         dataSource.apply(snapshot, animatingDifferences: true)
+    }
+}
+
+// MARK: SegmentedControl Delegate Extension
+extension DetailsViewController: SegmentedControlDelegate {
+    func selectedSegmentedIndexDidChange(_ newValue: Int) {
+        presenter.updateSelectedSegmentedControlIndex(to: newValue)
     }
 }

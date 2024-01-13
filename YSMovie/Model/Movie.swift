@@ -109,8 +109,8 @@ struct Movie: Decodable, Hashable {
     
     /// Get a list of similar movies.
     /// - Returns: Similar list of Movies.
-    func geSimilars() -> [Movie] {
-        guard let responseSimilar = self.similar else { return [] }
+    func geSimilars() -> [Movie]? {
+        guard let responseSimilar = self.similar else { return nil }
         return responseSimilar.results
     }
 }

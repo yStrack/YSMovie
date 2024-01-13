@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol SegmentedControlDelegate {
+    func selectedSegmentedIndexDidChange(_ newValue: Int)
+}
+
 final class SegmentedControlHeaderView: UICollectionReusableView {
     static let identifier: String = "SegmentedControlHeaderView"
     
@@ -41,12 +45,16 @@ final class SegmentedControlHeaderView: UICollectionReusableView {
     
     var selectedIndex: Int = 0 {
         didSet {
-            self.updateSelectedButton()
+            delegate?.selectedSegmentedIndexDidChange(selectedIndex)
+            updateSelectedButton()
             UIView.animate(withDuration: 0.2) {
                 self.layoutIfNeeded()
             }
         }
     }
+    
+    // MARK: Delegate
+    var delegate: SegmentedControlDelegate?
     
     // MARK: Initializers
     override init(frame: CGRect) {
@@ -68,9 +76,9 @@ final class SegmentedControlHeaderView: UICollectionReusableView {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: self.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            stackView.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor),
+            stackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
+            stackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8),
+            stackView.trailingAnchor.constraint(lessThanOrEqualTo: self.trailingAnchor, constant: -8),
             stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
         ])
     }
