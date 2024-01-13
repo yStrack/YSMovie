@@ -9,7 +9,7 @@ import Foundation
 
 struct ReleaseDateResult: Decodable {
     let iso_3166_1: String
-    let releaseDates: [ReleaseDate]
+    let release_dates: [ReleaseDate]
 }
 
 struct ReleaseDate: Decodable {
