@@ -35,7 +35,7 @@ final class SegmentedControlHeaderView: UICollectionReusableView {
     }()
     
     private lazy var trailersButton: UIButton = {
-        let button = SegmentedControlButton(title: String(localized: "Trailers and more"))
+        let button = SegmentedControlButton(title: String(localized: "Trailers & More"))
         button.isSelected = false
         button.addAction(UIAction() { _ in
             self.selectedIndex = 1
