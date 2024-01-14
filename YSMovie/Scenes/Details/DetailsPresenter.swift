@@ -15,7 +15,7 @@ protocol DetailsPresenterInput {
 
 protocol DetailsPresenterOutput {
     func movieDidLoad(_ movie: Movie)
-    func detailsSectionsDidLoad(_ sections: [DetailsCollectionViewSection])
+    func detailsSectionsDidLoad(_ sections: [DetailsCollectionViewSection], for selectedSegmentedControlIndex: Int)
 }
 
 // MARK: ViewModels
@@ -56,16 +56,17 @@ final class DetailsPresenter: DetailsPresenterInput {
                 guard let self else { return }
                 self.movie = movie
                 let sections = buildSections(input: movie)
-                output?.detailsSectionsDidLoad(sections)
+                output?.detailsSectionsDidLoad(sections, for: selectedSegmentedControlIndex)
             }
             .store(in: &cancellables)
     }
     
     func updateSelectedSegmentedControlIndex(to index: Int) {
-        self.selectedSegmentedControlIndex = index
+        guard selectedSegmentedControlIndex != index else { return } // only update things when selected index changes.
+        selectedSegmentedControlIndex = index
         let updatedSections = buildSections(input: movie)
         DispatchQueue.main.async {
-            self.output?.detailsSectionsDidLoad(updatedSections)
+            self.output?.detailsSectionsDidLoad(updatedSections, for: self.selectedSegmentedControlIndex)
         }
     }
     
@@ -74,7 +75,7 @@ final class DetailsPresenter: DetailsPresenterInput {
         
         var extrasSection: DetailsCollectionViewSection = .extras(items: [])
         if selectedSegmentedControlIndex == 0, let similars = input.geSimilars(), !similars.isEmpty {
-            extrasSection = .extras(items: similars)
+            extrasSection = .extras(items: Array(similars.prefix(6)))
         }
         
         if selectedSegmentedControlIndex == 1, let videos = input.getVideos(), !videos.isEmpty {

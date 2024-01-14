@@ -12,18 +12,7 @@ final class DetailsViewController: UIViewController {
     
     // MARK: Subviews
     private lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewCompositionalLayout { sectionIndex, layoutEnvironment in
-            var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-            configuration.showsSeparators = false
-            configuration.backgroundColor = .clear
-            configuration.footerMode = sectionIndex == 0 ? .supplementary : .none
-            
-            let section = NSCollectionLayoutSection.list(using: configuration, layoutEnvironment: layoutEnvironment)
-            section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
-            return section
-        }
-        
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
         
@@ -165,25 +154,24 @@ final class DetailsViewController: UIViewController {
         let text: String = "\(video.type): \(video.name)"
         cell.contentConfiguration = UIHostingConfiguration {
             HStack {
-                Text(text)
+                VStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 12)
+                        .foregroundStyle(Color.secondary)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 176)
+                    Text(text)
+                }
                 Spacer()
             }
         }
         .margins(.horizontal, 0) // Pin to edges.
     }
     
-    let similarsCellRegistration = UICollectionView.CellRegistration<UICollectionViewCell, AnyHashable> { (cell, indexPath, item) in
+    let similarsCellRegistration = UICollectionView.CellRegistration<CarouselCollectionViewCell, AnyHashable> { (cell, indexPath, item) in
         guard let movie = item as? Movie else {
             fatalError("Unkown Details CollectionView item for section 0.")
         }
-        
-        cell.contentConfiguration = UIHostingConfiguration {
-            HStack {
-                Text(movie.title)
-                Spacer()
-            }
-        }
-        .margins(.horizontal, 0) // Pin to edges.
+        cell.setup(with: movie)
     }
     
     func makeDataSource() -> UICollectionViewDiffableDataSource<DetailsCollectionViewSection, AnyHashable> {
@@ -227,6 +215,41 @@ final class DetailsViewController: UIViewController {
         
         return dataSource
     }
+    
+    // MARK: CollectionView Layout
+    private func setupCollectionViewLayout(selectedSegmentedControlIndex: Int) {
+        collectionView.setContentOffset(.zero, animated: true)
+        let layout = UICollectionViewCompositionalLayout { sectionIndex, layoutEnvironment in
+            if sectionIndex == 1, selectedSegmentedControlIndex == 0 {
+                return self.similarsLayout()
+            }
+            
+            var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+            configuration.showsSeparators = false
+            configuration.backgroundColor = .clear
+            configuration.footerMode = sectionIndex == 0 ? .supplementary : .none
+            
+            let section = NSCollectionLayoutSection.list(using: configuration, layoutEnvironment: layoutEnvironment)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+            return section
+        }
+        
+        collectionView.setCollectionViewLayout(layout, animated: true)
+    }
+    
+    private func similarsLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1/3), heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(176))
+        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, repeatingSubitem: item, count: 3)
+        group.interItemSpacing = .fixed(12)
+        
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 8, bottom: 0, trailing: 8)
+        section.interGroupSpacing = 12
+        return section
+    }
 }
 
 // MARK: Presenter Output Extension
@@ -238,7 +261,10 @@ extension DetailsViewController: DetailsPresenterOutput {
         }
     }
     
-    func detailsSectionsDidLoad(_ sections: [DetailsCollectionViewSection]) {
+    func detailsSectionsDidLoad(_ sections: [DetailsCollectionViewSection], for selectedSegmentedControlIndex: Int) {
+        // Update layout.
+        setupCollectionViewLayout(selectedSegmentedControlIndex: selectedSegmentedControlIndex)
+        // Apply data changes.
         var snapshot = NSDiffableDataSourceSnapshot<DetailsCollectionViewSection, AnyHashable>()
         snapshot.appendSections(sections)
         sections.forEach { section in
