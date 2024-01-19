@@ -31,13 +31,6 @@ final class DetailsViewController: UIViewController {
         return imageView
     }()
     
-    private lazy var backgroundVisualEffectView: UIVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .systemThickMaterialDark)
-        let visualEffectView = UIVisualEffectView(effect: blurEffect)
-        visualEffectView.translatesAutoresizingMaskIntoConstraints = false
-        return visualEffectView
-    }()
-    
     private lazy var navigationBar: UINavigationBar = {
         let navigationBar = UINavigationBar(frame: .zero)
         navigationBar.translatesAutoresizingMaskIntoConstraints = false
@@ -90,23 +83,21 @@ final class DetailsViewController: UIViewController {
     
     // MARK: Setup Subviews
     private func addSubviews() {
-        view.addSubview(backgroundVisualEffectView)
         view.addSubview(headerImageView)
         view.addSubview(collectionView)
         view.addSubview(navigationBar)
     }
     
     private func setupSubviews() {
+        if transitioningDelegate == nil {
+            view.backgroundColor = .black
+            return
+        }
         view.backgroundColor = .clear
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            backgroundVisualEffectView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            backgroundVisualEffectView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            backgroundVisualEffectView.topAnchor.constraint(equalTo: view.topAnchor),
-            backgroundVisualEffectView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
             headerImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             headerImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             headerImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

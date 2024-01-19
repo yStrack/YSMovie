@@ -10,7 +10,7 @@ import Combine
 
 protocol HomePresenterInput {
     func getMovieSections()
-    func didSelectMovie(_ movie: Movie)
+    func didSelectMovie(_ movie: Movie, at section: Int)
 }
 
 protocol HomePresenterOutput {
@@ -66,7 +66,7 @@ final class HomePresenter: HomePresenterInput {
             .store(in: &cancellables)
     }
     
-    func didSelectMovie(_ movie: Movie) {
-        router.presentDetails(for: movie)
+    func didSelectMovie(_ movie: Movie, at section: Int) {
+        router.presentDetails(for: movie, withCustomTransition: section == 0 ? false : true)
     }
 }

@@ -98,7 +98,7 @@ class HomeViewController: UIViewController {
         collectionView.backgroundView = backgroundView
     }
     
-    // MARK: Collection View functions
+    // MARK: Collection View DataSource
     let carouselCellRegistration = UICollectionView.CellRegistration<CarouselCollectionViewCell, Movie> { (cell, indexPath, item) in
         cell.setup(with: item)
     }
@@ -140,6 +140,7 @@ class HomeViewController: UIViewController {
         return dataSource
     }
     
+    // MARK: Collection View Layout
     private func setupCollectionViewLayout() {
         let layout = UICollectionViewCompositionalLayout { sectionIndex, environment in
             switch sectionIndex {
@@ -225,6 +226,12 @@ class HomeViewController: UIViewController {
         
         return section
     }
+    
+    func selectedItemView() -> UIView? {
+        guard let indexPath = collectionView.indexPathsForSelectedItems?.first else { return nil }
+        let view = collectionView.cellForItem(at: indexPath)
+        return view
+    }
 }
 
 // MARK: - HomePresenterOutput
@@ -277,6 +284,6 @@ extension HomeViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let movie = dataSource.snapshot().sectionIdentifiers[indexPath.section].content[indexPath.row]
-        presenter.didSelectMovie(movie)
+        presenter.didSelectMovie(movie, at: indexPath.section)
     }
 }

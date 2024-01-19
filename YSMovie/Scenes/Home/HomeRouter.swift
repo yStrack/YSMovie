@@ -10,14 +10,17 @@ import UIKit
 protocol HomeRouterProtocol {
     var viewController: UIViewController? { get }
     
-    func presentDetails(for movie: Movie)
+    func presentDetails(for movie: Movie, withCustomTransition: Bool)
 }
 
 final class HomeRouter: HomeRouterProtocol {
     weak var viewController: UIViewController?
+    private let transitionManager = TransitionManager()
     
-    func presentDetails(for movie: Movie) {
+    func presentDetails(for movie: Movie, withCustomTransition: Bool = false) {
         let destination = DetailsFactory.build(movie)
+        destination.transitioningDelegate = withCustomTransition ? transitionManager : nil
+        
         viewController?.present(destination, animated: true)
     }
 }
