@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1800F40F2B6056A700282246 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1800F40E2B6056A700282246 /* SettingsViewController.swift */; };
+		1800F4112B6056B800282246 /* SettingsFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1800F4102B6056B800282246 /* SettingsFactory.swift */; };
 		183D92042B4AF357007AE5CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183D92032B4AF357007AE5CF /* AppDelegate.swift */; };
 		183D92062B4AF357007AE5CF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183D92052B4AF357007AE5CF /* SceneDelegate.swift */; };
 		183D92082B4AF357007AE5CF /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183D92072B4AF357007AE5CF /* HomeViewController.swift */; };
@@ -48,6 +50,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1800F40E2B6056A700282246 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		1800F4102B6056B800282246 /* SettingsFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsFactory.swift; sourceTree = "<group>"; };
 		183D92002B4AF357007AE5CF /* YSMovie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YSMovie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		183D92032B4AF357007AE5CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		183D92052B4AF357007AE5CF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -101,6 +105,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1800F40D2B60569000282246 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				1800F4102B6056B800282246 /* SettingsFactory.swift */,
+				1800F40E2B6056A700282246 /* SettingsViewController.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		183D91F72B4AF357007AE5CF = {
 			isa = PBXGroup;
 			children = (
@@ -174,6 +187,7 @@
 			children = (
 				185D813D2B4DB1CA00B9F8DD /* Details */,
 				183D922E2B4B5A3D007AE5CF /* Home */,
+				1800F40D2B60569000282246 /* Settings */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -343,7 +357,9 @@
 				185D813A2B4D866300B9F8DD /* UIViewController+Extension.swift in Sources */,
 				183D92342B4B70B7007AE5CF /* HomeFactory.swift in Sources */,
 				183D92322B4B6086007AE5CF /* HomePresenter.swift in Sources */,
+				1800F40F2B6056A700282246 /* SettingsViewController.swift in Sources */,
 				183D923C2B4C3789007AE5CF /* CarouselSectionHeaderView.swift in Sources */,
+				1800F4112B6056B800282246 /* SettingsFactory.swift in Sources */,
 				188572B32B54A315003A7BE2 /* TransitionManager.swift in Sources */,
 				187B9EAA2B4F1F5100E75C62 /* HomeRouter.swift in Sources */,
 				18E1D8462B51A4870094CB12 /* DetailsInteractor.swift in Sources */,

@@ -36,15 +36,10 @@ final class DetailsViewController: UIViewController {
         navigationBar.translatesAutoresizingMaskIntoConstraints = false
         
         let navigationItem = UINavigationItem()
-        // Configure SF Symbol with Pallet style and resize to .title2 font.
-        let imageConfiguration = UIImage.SymbolConfiguration(paletteColors: [.white, .black.withAlphaComponent(0.6)])
-            .applying(UIImage.SymbolConfiguration(font: .preferredFont(forTextStyle: .title2)))
         // SF Symbol image used on navigation bar right bar button item.
-        let rightBarButtonImage = UIImage(systemName: "xmark.circle.fill")?
-            .applyingSymbolConfiguration(imageConfiguration)
+        let rightBarButtonImage = UIImage.xmark
         // Setup right bar button item.
         let rightBarButtonItem = UIBarButtonItem(image: rightBarButtonImage, style: .plain, target: self, action: #selector(closeView))
-        rightBarButtonItem.image?.applyingSymbolConfiguration(imageConfiguration)
         // Set right bar button item.
         navigationItem.rightBarButtonItem = rightBarButtonItem
         // Add configured UINavigationItem to UINavigationBar.

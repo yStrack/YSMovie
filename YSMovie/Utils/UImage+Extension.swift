@@ -21,4 +21,11 @@ extension UIImage {
 
         return UIColor(red: CGFloat(bitmap[0]) / 255, green: CGFloat(bitmap[1]) / 255, blue: CGFloat(bitmap[2]) / 255, alpha: CGFloat(bitmap[3]) / 255)
     }
+    
+    static var xmark: UIImage? {
+        // Configure SF Symbol with Pallet style and resize to .title2 font.
+        let imageConfiguration = UIImage.SymbolConfiguration(paletteColors: [.white, .black.withAlphaComponent(0.6)])
+            .applying(UIImage.SymbolConfiguration(font: .preferredFont(forTextStyle: .title2)))
+        return UIImage(systemName: "xmark.circle.fill")?.applyingSymbolConfiguration(imageConfiguration)
+    }
 }

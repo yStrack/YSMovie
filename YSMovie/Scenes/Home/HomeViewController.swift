@@ -80,7 +80,7 @@ class HomeViewController: UIViewController {
     private func addSubviews() {
         view.addSubview(collectionView)
         
-        let rightBarItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(didSelectSettings))
+        let rightBarItem = UIBarButtonItem(image: UIImage(systemName: "line.3.horizontal"), style: .plain, target: self, action: #selector(didSelectSettings))
         navigationItem.setRightBarButton(rightBarItem, animated: true)
         navigationItem.rightBarButtonItem?.tintColor = .white
     }

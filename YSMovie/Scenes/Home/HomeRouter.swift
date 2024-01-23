@@ -26,6 +26,8 @@ final class HomeRouter: HomeRouterProtocol {
     }
     
     func presentSettings() {
-        print("Settings Scene")
+        let destination = SettingsFactory.build()
+        
+        viewController?.present(destination, animated: true)
     }
 }
