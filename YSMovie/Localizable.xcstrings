@@ -62,7 +62,24 @@
       }
     },
     "Third-party APIs" : {
-
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "APIs de terceiros"
+          }
+        }
+      }
+    },
+    "This product uses the TMDb API but is not endorsed or certified by TMDb." : {
+      "localizations" : {
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este produto usa a API TMDb, mas não é endossado ou certificado pela TMDb."
+          }
+        }
+      }
     },
     "Top rated" : {
       "localizations" : {

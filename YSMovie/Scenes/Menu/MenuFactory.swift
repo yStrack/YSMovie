@@ -9,7 +9,10 @@ import UIKit
 
 enum MenuFactory {
     static func build() -> UIViewController {
-        let viewController = MenuViewController()
+        let router = MenuRouter()
+        let viewController = MenuViewController(router: router)
+        router.viewController = viewController
+        
         if let sheetPresentationController = viewController.sheetPresentationController {
             sheetPresentationController.detents = [
                 .custom(resolver: { context in
