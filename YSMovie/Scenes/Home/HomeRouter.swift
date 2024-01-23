@@ -11,6 +11,7 @@ protocol HomeRouterProtocol {
     var viewController: UIViewController? { get }
     
     func presentDetails(for movie: Movie, withCustomTransition: Bool)
+    func presentSettings()
 }
 
 final class HomeRouter: HomeRouterProtocol {
@@ -22,5 +23,9 @@ final class HomeRouter: HomeRouterProtocol {
         destination.transitioningDelegate = withCustomTransition ? transitionManager : nil
         
         viewController?.present(destination, animated: true)
+    }
+    
+    func presentSettings() {
+        print("Settings Scene")
     }
 }

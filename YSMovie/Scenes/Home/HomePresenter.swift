@@ -11,6 +11,7 @@ import Combine
 protocol HomePresenterInput {
     func getMovieSections()
     func didSelectMovie(_ movie: Movie, at section: Int)
+    func didSelectSettings()
 }
 
 protocol HomePresenterOutput {
@@ -68,5 +69,9 @@ final class HomePresenter: HomePresenterInput {
     
     func didSelectMovie(_ movie: Movie, at section: Int) {
         router.presentDetails(for: movie, withCustomTransition: section == 0 ? false : true)
+    }
+    
+    func didSelectSettings() {
+        router.presentSettings()
     }
 }

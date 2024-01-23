@@ -79,6 +79,10 @@ class HomeViewController: UIViewController {
     // MARK: Setup subviews
     private func addSubviews() {
         view.addSubview(collectionView)
+        
+        let rightBarItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(didSelectSettings))
+        navigationItem.setRightBarButton(rightBarItem, animated: true)
+        navigationItem.rightBarButtonItem?.tintColor = .white
     }
     
     private func setupConstraints() {
@@ -96,6 +100,11 @@ class HomeViewController: UIViewController {
         let gradientLayer = CAGradientLayer.gradientLayer(colors: colors, in: collectionView.frame)
         backgroundView.layer.addSublayer(gradientLayer)
         collectionView.backgroundView = backgroundView
+    }
+    
+    // MARK: Selectors
+    @objc func didSelectSettings() {
+        presenter.didSelectSettings()
     }
     
     // MARK: Collection View DataSource
