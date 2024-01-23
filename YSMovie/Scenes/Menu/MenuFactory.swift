@@ -1,5 +1,5 @@
 //
-//  SettingsFactory.swift
+//  MenuFactory.swift
 //  YSMovie
 //
 //  Created by ystrack on 23/01/24.
@@ -7,9 +7,9 @@
 
 import UIKit
 
-enum SettingsFactory {
+enum MenuFactory {
     static func build() -> UIViewController {
-        let viewController = SettingsViewController()
+        let viewController = MenuViewController()
         if let sheetPresentationController = viewController.sheetPresentationController {
             sheetPresentationController.detents = [
                 .custom(resolver: { context in

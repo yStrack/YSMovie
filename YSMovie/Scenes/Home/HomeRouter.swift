@@ -26,7 +26,7 @@ final class HomeRouter: HomeRouterProtocol {
     }
     
     func presentSettings() {
-        let destination = SettingsFactory.build()
+        let destination = MenuFactory.build()
         
         viewController?.present(destination, animated: true)
     }

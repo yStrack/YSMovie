@@ -1,5 +1,5 @@
 //
-//  SettingsViewController.swift
+//  MenuViewController.swift
 //  YSMovie
 //
 //  Created by ystrack on 23/01/24.
@@ -7,8 +7,9 @@
 
 import UIKit
 
-final class SettingsViewController: UIViewController {
+final class MenuViewController: UIViewController {
     
+    // MARK: Constants
     private let cellIdentifier: String = "DefaultSettingsCell"
     
     // MARK: Views
@@ -59,13 +60,14 @@ final class SettingsViewController: UIViewController {
 }
 
 // MARK: UITableView Delegate Extension
-extension SettingsViewController: UITableViewDelegate {
+extension MenuViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //
     }
 }
 
-extension SettingsViewController: UITableViewDataSource {
+// MARK: UITableView DataSource Extension
+extension MenuViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
